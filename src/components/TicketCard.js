@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 
 const TicketCard = ({ ticket }) => {
   return (
-    <div className='bg-white'>
+    <div className='bg-blue-300'>
       <p>From: {ticket.from}</p>
       <h1>To: {ticket.to}</h1>
       <p>Date: {format(new Date(ticket.date), 'dd MMM yyyy')}</p>

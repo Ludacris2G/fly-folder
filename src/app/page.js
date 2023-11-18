@@ -20,8 +20,8 @@ export default function Home() {
   return (
     <div className='grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 min-h-screen flex-col items-center justify-between p-24'>
       {tickets.map((ticket) => (
-        <div className='flex'>
-          <TicketCard ticket={ticket} key={ticket.date} />
+        <div className='flex' key={ticket.date}>
+          <TicketCard ticket={ticket} />
         </div>
       ))}
     </div>
