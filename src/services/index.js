@@ -2,11 +2,11 @@ import request, { gql } from 'graphql-request';
 
 const hygraphToken = process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT;
 
-export const testing = async () => {
+export const getTickets = async () => {
   const query = gql`
     query getTickets {
       tickets {
-        createdAt
+        date
         from
         to
       }
@@ -15,10 +15,8 @@ export const testing = async () => {
 
   try {
     const response = await request(hygraphToken, query);
-    console.log('GQL response: ', response);
     return response;
   } catch (error) {
-    console.log('hi');
     console.error(error);
   }
 };
