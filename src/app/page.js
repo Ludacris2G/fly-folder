@@ -16,11 +16,13 @@ export default function Home() {
       setTickets(tickets.tickets);
     }
   };
+  console.log(tickets);
 
   return (
-    <div className='grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 min-h-screen flex-col items-center justify-between p-24'>
+    <div className='grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 min-h-screen flex-col items-center justify-between xl:p-24 p-2'>
+      <p className='text-center'>Total Flights: {tickets.length}</p>
       {tickets.map((ticket) => (
-        <div className='flex' key={ticket.date}>
+        <div className='flex mb-1' key={ticket.date}>
           <TicketCard ticket={ticket} />
         </div>
       ))}
