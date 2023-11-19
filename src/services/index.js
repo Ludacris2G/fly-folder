@@ -9,6 +9,14 @@ export const getTickets = async () => {
         date
         from
         to
+        company {
+          name
+        }
+        departureTime
+        fromIataCode
+        toIataCode
+        arrivalTime
+        flightTime
       }
     }
   `;
