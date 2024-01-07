@@ -1,6 +1,7 @@
 'use client';
-import { format, differenceInHours } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { getPictureLink } from '@/services';
+import { format } from 'date-fns';
+import Image from 'next/image';
 
 const TicketCard = ({ ticket }) => {
   const departureDate = new Date(ticket.departureTime);
@@ -9,20 +10,27 @@ const TicketCard = ({ ticket }) => {
   const arrivalTime = ticket.departureTime && format(arrivalDate, 'HH:mm');
 
   return (
-    <div className='bg-blue-300 rounded-xl p-2'>
+    <div className='bg-blue-300 rounded-[40px] p-4 m-2'>
       <img
-        src='https://previews.123rf.com/images/rrraven/rrraven1807/rrraven180700010/105130784-jet-plane-icon.jpg'
-        alt=''
-        className='w-full rounded-xl'
+        src={ticket.destinationImg}
+        alt={ticket.destination}
+        className='w-full rounded-[30px]'
       />
-      <div className='flex justify-between'>
+      <div className='flex justify-between mt-2'>
         <div className='flex flex-col'>
           <p>{departureTime}</p>
           <p>{ticket.fromIataCode}</p>
           <p>{ticket.from}</p>
         </div>
         <div>
-          <p>{ticket.flightTime}</p> plane icon
+          <p>{ticket.flightTime}</p>
+          <Image
+            src={'/assets/plane-icon.png'}
+            width={30}
+            height={30}
+            alt='Picture of the author'
+            className='filter invert mt-3'
+          />
         </div>
         <div>
           <p> {arrivalTime}</p>
