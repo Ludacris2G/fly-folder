@@ -8,7 +8,7 @@ const client = createClient(pexelsKey);
 export const getTickets = async () => {
   const query = gql`
     query getTickets {
-      ticketsConnection(first: 100) {
+      ticketsConnection(first: 100, orderBy: date_DESC) {
         pageInfo {
           hasNextPage
           hasPreviousPage
