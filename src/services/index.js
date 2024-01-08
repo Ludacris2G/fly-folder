@@ -8,25 +8,34 @@ const client = createClient(pexelsKey);
 export const getTickets = async () => {
   const query = gql`
     query getTickets {
-      tickets {
-        date
-        from
-        to
-        company {
-          name
+      ticketsConnection(first: 100) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+          pageSize
         }
-        departureTime
-        fromIataCode
-        toIataCode
-        arrivalTime
-        flightTime
+        edges {
+          node {
+            from
+            fromIataCode
+            flightTime
+            date
+            departureTime
+            arrivalTime
+            to
+            toIataCode
+          }
+        }
       }
     }
   `;
 
   try {
     const response = await request(hygraphToken, query);
-    return response;
+    // console.log(response.ticketsConnection.edges);
+    return response.ticketsConnection.edges;
   } catch (error) {
     console.error(error);
   }

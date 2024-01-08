@@ -11,19 +11,24 @@ const TicketCard = ({ ticket }) => {
 
   return (
     <div className='bg-blue-300 rounded-[40px] p-4 m-2'>
-      <img
-        src={ticket.destinationImg}
-        alt={ticket.destination}
-        className='w-full rounded-[30px]'
-      />
+      {ticket.node.destinationImg ? (
+        <img
+          src={ticket.node.destinationImg}
+          alt={ticket.node.destination}
+          className='w-full rounded-[30px]'
+        />
+      ) : (
+        <p className='text-center'>Loading..</p>
+      )}
+
       <div className='flex justify-between mt-2'>
         <div className='flex flex-col'>
           <p>{departureTime}</p>
-          <p>{ticket.fromIataCode}</p>
-          <p>{ticket.from}</p>
+          <p>{ticket.node.fromIataCode}</p>
+          <p>{ticket.node.from}</p>
         </div>
         <div>
-          <p>{ticket.flightTime}</p>
+          <p>{ticket.node.flightTime}</p>
           <Image
             src={'/assets/plane-icon.png'}
             width={30}
@@ -34,11 +39,11 @@ const TicketCard = ({ ticket }) => {
         </div>
         <div>
           <p> {arrivalTime}</p>
-          <p>{ticket.toIataCode}</p>
-          <h1>{ticket.to}</h1>
+          <p>{ticket.node.toIataCode}</p>
+          <h1>{ticket.node.to}</h1>
         </div>
       </div>
-      <p>Date: {format(new Date(ticket.date), 'dd MMM yyyy')}</p>
+      <p>Date: {format(new Date(ticket.node.date), 'dd MMM yyyy')}</p>
     </div>
   );
 };

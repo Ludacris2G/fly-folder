@@ -13,14 +13,15 @@ export default function Home() {
     const tickets = await getTickets();
 
     if (tickets) {
-      const ticketPromises = tickets.tickets.map(async (ticket) => {
-        const link = await getPictureLink(ticket.to);
+      const ticketPromises = tickets.map(async (ticket) => {
+        const link = await getPictureLink(ticket.node.to);
 
-        ticket.destinationImg = link;
+        ticket.node.destinationImg = link;
       });
-
+      
+      console.log(tickets);
       await Promise.all(ticketPromises);
-      setTickets(tickets.tickets);
+      setTickets(tickets);
     }
   };
 
