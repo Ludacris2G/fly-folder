@@ -5,33 +5,44 @@ import { getPictureLink, getTickets } from '../services';
 
 export default function Home() {
   const [tickets, setTickets] = useState([]);
+  const [flightsThisYear, setFlightsThisYear] = useState(0);
 
   useEffect(() => {
     fetchTickets();
   }, []);
 
+  // statistics calculator
+  useEffect(() => {
+    let flightsThisYearCount = 0;
+
+    tickets.forEach((ticket) => {
+      if (
+        new Date().getFullYear() === new Date(ticket.node.date).getFullYear()
+      ) {
+        flightsThisYearCount += 1;
+      }
+    });
+
+    setFlightsThisYear(flightsThisYearCount);
+  }, [tickets]);
+
   const fetchTickets = async () => {
     let allTickets = [];
-    let flightsThisYear = 0;
-    const currentYear = new Date().getFullYear();
 
     // recursive function
     const fetchPage = async (after) => {
       const response = await getTickets(after);
-      console.log(response);
       if (response && response.ticketsConnection.edges.length > 0) {
         const ticketPromises = response.ticketsConnection.edges.map(
           async (ticket) => {
             const link = await getPictureLink(ticket.node.to);
             ticket.node.destinationImg = link;
-
             return ticket;
           }
         );
 
         const ticketsData = await Promise.all(ticketPromises);
         allTickets = [...allTickets, ...ticketsData];
-        console.log(allTickets);
         if (response.ticketsConnection.pageInfo.hasNextPage) {
           await fetchPage(response.ticketsConnection.pageInfo.endCursor);
         } else {
@@ -49,6 +60,9 @@ export default function Home() {
         <>
           <p className='text-center lg:col-span-3 md:col-span-3 grid-span-1'>
             Total Flights: {tickets.length}
+          </p>
+          <p className='text-center lg:col-span-3 md:col-span-3 grid-span-1'>
+            Flights this year: {flightsThisYear}
           </p>
           {tickets.map((ticket) => (
             <React.Fragment key={ticket.node.date}>
