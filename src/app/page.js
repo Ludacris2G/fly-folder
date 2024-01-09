@@ -5,24 +5,42 @@ import { getPictureLink, getTickets } from '../services';
 
 export default function Home() {
   const [tickets, setTickets] = useState([]);
+
   useEffect(() => {
     fetchTickets();
   }, []);
 
   const fetchTickets = async () => {
-    const tickets = await getTickets();
+    let allTickets = [];
+    let flightsThisYear = 0;
+    const currentYear = new Date().getFullYear();
 
-    if (tickets) {
-      const ticketPromises = tickets.map(async (ticket) => {
-        const link = await getPictureLink(ticket.node.to);
+    // recursive function
+    const fetchPage = async (after) => {
+      const response = await getTickets(after);
+      console.log(response);
+      if (response && response.ticketsConnection.edges.length > 0) {
+        const ticketPromises = response.ticketsConnection.edges.map(
+          async (ticket) => {
+            const link = await getPictureLink(ticket.node.to);
+            ticket.node.destinationImg = link;
 
-        ticket.node.destinationImg = link;
-      });
+            return ticket;
+          }
+        );
 
-      // console.log(tickets);
-      await Promise.all(ticketPromises);
-      setTickets(tickets);
-    }
+        const ticketsData = await Promise.all(ticketPromises);
+        allTickets = [...allTickets, ...ticketsData];
+        console.log(allTickets);
+        if (response.ticketsConnection.pageInfo.hasNextPage) {
+          await fetchPage(response.ticketsConnection.pageInfo.endCursor);
+        } else {
+          setTickets(allTickets);
+        }
+      }
+    };
+
+    await fetchPage(null);
   };
 
   return (
