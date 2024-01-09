@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TicketCard from '../components/TicketCard';
 import { getPictureLink, getTickets } from '../services';
 
@@ -18,8 +18,8 @@ export default function Home() {
 
         ticket.node.destinationImg = link;
       });
-      
-      console.log(tickets);
+
+      // console.log(tickets);
       await Promise.all(ticketPromises);
       setTickets(tickets);
     }
@@ -33,9 +33,11 @@ export default function Home() {
             Total Flights: {tickets.length}
           </p>
           {tickets.map((ticket) => (
-            <div className='flex' key={ticket.date}>
-              <TicketCard ticket={ticket} />
-            </div>
+            <React.Fragment key={ticket.node.date}>
+              <div className='flex'>
+                <TicketCard ticket={ticket} />
+              </div>
+            </React.Fragment>
           ))}
         </>
       ) : (
