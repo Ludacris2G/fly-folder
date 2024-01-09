@@ -44,9 +44,11 @@ export const getTickets = async (afterCursor) => {
 
 export const getPictureLink = async (place) => {
   try {
+    const perPage = 3;
     const query = place;
-    const response = await client.photos.search({ query, per_page: 1 });
-    if (response) return response.photos[0].src.landscape;
+    const response = await client.photos.search({ query, per_page: perPage });
+    if (response)
+      return response.photos[Math.floor(Math.random() * perPage)].src.landscape;
   } catch (err) {
     console.log(err);
   }
