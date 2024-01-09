@@ -5,10 +5,10 @@ const hygraphToken = process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT;
 const pexelsKey = process.env.NEXT_PUBLIC_PEXELS_KEY;
 const client = createClient(pexelsKey);
 
-export const getTickets = async () => {
+export const getTickets = async (afterCursor) => {
   const query = gql`
-    query getTickets {
-      ticketsConnection(first: 100, orderBy: date_DESC) {
+    query getTickets($afterCursor: String) {
+      ticketsConnection(first: 100, after: $afterCursor, orderBy: date_DESC) {
         pageInfo {
           hasNextPage
           hasPreviousPage
@@ -33,9 +33,10 @@ export const getTickets = async () => {
   `;
 
   try {
-    const response = await request(hygraphToken, query);
-    // console.log(response.ticketsConnection.edges);
-    return response.ticketsConnection.edges;
+    const response = await request(hygraphToken, query, {
+      afterCursor: afterCursor,
+    });
+    return response;
   } catch (error) {
     console.error(error);
   }
