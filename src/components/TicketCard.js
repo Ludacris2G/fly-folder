@@ -10,7 +10,7 @@ const TicketCard = ({ ticket }) => {
   const arrivalTime = ticket.departureTime && format(arrivalDate, 'HH:mm');
 
   return (
-    <div className='bg-blue-300 rounded-[40px] p-4 m-2'>
+    <div className='bg-card rounded-[40px] p-4 m-2'>
       {ticket.node.destinationImg ? (
         <img
           src={ticket.node.destinationImg}
