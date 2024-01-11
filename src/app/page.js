@@ -55,7 +55,7 @@ export default function Home() {
   };
 
   return (
-    <div className='grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 min-h-screen flex-col items-center justify-between xl:p-24 xl:pt-2 p-2'>
+    <div className='grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 min-h-screen flex-col items-center justify-between xl:p-24 xl:pt-2 p-2 bg-background'>
       {tickets.length ? (
         <>
           <p className='text-center lg:col-span-3 md:col-span-3 grid-span-1'>
